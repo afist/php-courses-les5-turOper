@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+
+            <div class="tab" role="tabpanel">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation">
+                        <a>Підрахунок туру для відпочинку</a>
+                    </li>
+                </ul>
+                <div class="tab-content tabs">
+                    <div role="tabpanel" class="tab-pane fade in active" id="Section1">
+                        <form class="form-horizontal" id="form">
+                            <div class="form-group">
+                                <label for="country">виберіть країну зі списку </label>
+
+                                <select name="country"  class="form-control custom-select select" id="country">
+                                    <option selected="" value="turkey">Туреччина</option>
+                                    <option value="egypt">Єгипет</option>
+                                    <option value="italy">Італія</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount_day">кількость днів відпочинку </label>
+                                <input type="tel" value="1" autocomplete="off" name="amount_day" class="form-control" id="amount_day">
+                            </div>
+                            <div class="form-group">
+                                <div class="main-checkbox">
+                                    <input id="checkbox1" name="checkbox" type="checkbox">
+                                    <label for="checkbox1"></label>
+                                </div>
+                                <span class="text">Є сертифікат на знижку</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Розрахунок вартості:</label>
+                                <div class="form-control" id="price">100$</div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-default">Заказати відпочинок</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<h3 class="hi" style="text-align: center"></h3>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+    $("#form").change(function(event){
+        event.preventDefault();
+        var serializedData = $(this).serialize();
+        request = $.ajax({
+            url: "form-send.php",
+            type: "post",
+            data: serializedData,
+            success(a){
+                $('#price').html(a);
+
+            }
+        });
+
+    })
+    $("#amount_day").keyup(function(){
+        var serializedData = $(this).parent().parent().serialize();
+        request = $.ajax({
+            url: "form-send.php",
+            type: "post",
+            data: serializedData,
+            success(a){
+                $('#price').html(a);
+
+            }
+        });
+
+    })
+    $('#amount_day').keypress(function (event) {
+        if (event.which == '13') {
+            event.preventDefault();
+        }
+    })
+
+    $("#form").submit(function(event){
+        event.preventDefault();
+        var serializedData = $(this).serialize();// собирает все данные с формы
+
+        request = $.ajax({
+            url: "form-send.php",
+            type: "post",
+            data: serializedData,
+            success(a){
+                $('.hi').html("Дякуэмо за заказ");
+
+            }
+        });
+
+    })
+
+</script>
+</body>
+</html>
